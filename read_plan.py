@@ -32,34 +32,23 @@ df_plan = pd.read_excel(df_plan_excel, sheet_name)
 df_plan = df_plan.dropna(subset=['Deal Type'])
 df_plan = df_plan.dropna(axis=1, how='all')
 
+columns_to_rename = {
+    'Est Imp': ['Est-Imp', 'Est. Imp'],
+    'Est Clicks': ['Est-Clicks', 'Est. Clicks', 'Est Clicks'],
+    'Est Video Views': ['Est Video Views', 'Views', 'Est Views / Engag'],
+    'Total Net Cost': ['Total Net Cost', 'Net Cost']
+}
 
-est_imp = ['Est-Imp', 'Est. Imp']
-est_clicks = ['Est-Clicks', 'Est. Clicks', 'Est Clicks']
-est_views = ['Est Video Views', 'Views','Est Views / Engag']
-total_cost = ['Total Net Cost', 'Net Cost']
-
-
-#Standarizing the column names
-if any(x in df_plan.columns for x in est_imp):
-    df_plan.rename(columns={x: 'Est Imp' for x in est_imp}, inplace=True)
-else:
-    print('Est-Imp column not found')
-
-if any(x in df_plan.columns for x in est_clicks):
-    df_plan.rename(columns={x: 'Est Clicks' for x in est_clicks}, inplace=True)
-else:
-    print('Est Clicks column not found')
-
-if any(x in df_plan.columns for x in est_views):
-    df_plan.rename(columns={x: 'Est Video Views' for x in est_views}, inplace=True)
-else:
-    print('Est Video Views column not found')
-
-if any(x in df_plan.columns for x in total_cost):
-    df_plan.rename(columns={x: 'Total Net Cost' for x in total_cost}, inplace=True)
-else:
-    print('Total Net Cost column not found')
-
+# Standardizing the column names
+for standardized_name, column_variants in columns_to_rename.items():
+    found = False
+    for column in column_variants:
+        if column in df_plan.columns:
+            df_plan.rename(columns={column: standardized_name}, inplace=True)
+            found = True
+            break
+    if not found:
+        print(f'{standardized_name} column not found')
 
 
 #Ensuring Start Date and End Date are in datetime format
