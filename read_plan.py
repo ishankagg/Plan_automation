@@ -2,7 +2,7 @@ import pandas as pd
 import os
 
 plans_path = 'raw_plans/'
-sheet_name = 'Core'
+sheet_name = 'Media Plan Phase 1'
 overall_plans_path = 'cleaned_plans/'
 daywise_plans_path = 'cleaned_daywise_plans/'
 
@@ -34,8 +34,8 @@ df_plan = df_plan.dropna(axis=1, how='all')
 
 
 est_imp = ['Est-Imp', 'Est. Imp']
-est_clicks = ['Est-Clicks', 'Est. Clicks']
-est_views = ['Est Video Views', 'Views']
+est_clicks = ['Est-Clicks', 'Est. Clicks', 'Est Clicks']
+est_views = ['Est Video Views', 'Views','Est Views / Engag']
 total_cost = ['Total Net Cost', 'Net Cost']
 
 
