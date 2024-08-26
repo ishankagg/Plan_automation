@@ -4,9 +4,10 @@ import numpy
 # from plyer import notification
 
 
-ravish_report_path = 'Ravish_Format\Digital Data - Ravish - FINAL.xlsx'
+ravish_report_path = 'Ravish_Format\Ravish Report Digital Final.xlsx'
 merged_plan_report_path = 'merged_plan_report.csv'
 t_date = '20-07-2024'
+t_date = pd.to_datetime(t_date, format='%d-%m-%Y')
 
 #Reading the report
 ravish_report = pd.read_excel(ravish_report_path, sheet_name='Data')
@@ -16,9 +17,8 @@ merged_plan_report = pd.read_csv(merged_plan_report_path)
 
 # Replace the values in the 'Geo' column and assign it back to the DataFrame
 merged_plan_report['Geo'] = merged_plan_report['Geo'].replace({
-    'Delhi NCR': 'Delhi',
-    'RO C1': 'ROC1',
-    'C1 Geos': 'C1'
+    'Delhi NCR Booster': 'Delhi NCR',
+    'ROC1': 'RO C1',
 })
 
 
@@ -28,7 +28,8 @@ merged_plan_report['Geo'] = merged_plan_report['Geo'].replace({
 merged_plan_report['Day'] = ''
 
 # Ensure 'Date' column is in datetime format
-merged_plan_report['Date'] = pd.to_datetime(merged_plan_report['Date'], dayfirst=True)
+merged_plan_report['Date'] = pd.to_datetime(merged_plan_report['Date'], format = '%Y-%m-%d')
+merged_plan_report['Date']
 
 # for i in range(len(merged_plan_report['Date'])):
 #     merged_plan_report['Day'][i] = 'T-' + str((pd.to_datetime(t_date) - pd.to_datetime(merged_plan_report['Date'][i])).days)
@@ -90,7 +91,34 @@ for col in common_columns:
     ravish_report_final.drop(columns=[col + '_x', col + '_y'], inplace=True)
 
 # Creating calculated columns
+ravish_report_final.columns
 
+ravish_report_final['deliveredimpressionpercent'] = (ravish_report_final['cydeliveredimpressions24'] / ravish_report_final['cyplannedimpressions24'])
+ravish_report_final['lydeliveredimpressionpercent'] = (ravish_report_final['lydeliveredimpressions'] / ravish_report_final['lyplannedimpressions'])
+ravish_report_final['deliveredimpressionsvsly'] = (ravish_report_final['deliveredimpressionpercent'] / ravish_report_final['deliveredimpressionpercent'])
+ravish_report_final['deliveredviewspercent'] = (ravish_report_final['cydeliveredviews24'] / ravish_report_final['cyplannedviews24'])
+ravish_report_final['lydeliveredviewspercent'] = (ravish_report_final['lydeliveredviews'] / ravish_report_final['lyplannedviews'])
+ravish_report_final['deliveredviewsvsly'] = (ravish_report_final['deliveredviewspercent'] / ravish_report_final['deliveredviewspercent'])
+ravish_report_final['plannedctr'] = (ravish_report_final['cyplannedclicks24'] / ravish_report_final['cyplannedimpressions24'])
+ravish_report_final['lyplannedctr'] = (ravish_report_final['lyplannedclicks'] / ravish_report_final['lyplannedimpressions'])
+ravish_report_final['deliveredctr'] = (ravish_report_final['cydeliveredclicks24'] / ravish_report_final['cydeliveredimpressions24'])
+ravish_report_final['lydeliveredctr'] = (ravish_report_final['lydeliveredclicks'] / ravish_report_final['lydeliveredimpressions'])
+ravish_report_final['deliveredctrpercent'] = (ravish_report_final['deliveredctr'] / ravish_report_final['lydeliveredctr'])
+ravish_report_final['lydeliveredctrpercent'] = (ravish_report_final['lydeliveredctr'] / ravish_report_final['lydeliveredctr'])
+ravish_report_final['deliveredctrvsly'] = (ravish_report_final['deliveredctrpercent'] / ravish_report_final['lydeliveredctrpercent'])
+ravish_report_final['plannedvtr'] = (ravish_report_final['cyplannedviews24'] / ravish_report_final['cyplannedimpressions24'])
+ravish_report_final['lyplannedvtr'] = (ravish_report_final['lyplannedviews'] / ravish_report_final['lyplannedimpressions'])
+ravish_report_final['deliveredvtr'] = (ravish_report_final['cydeliveredviews24'] / ravish_report_final['cydeliveredimpressions24'])
+ravish_report_final['lydeliveredvtr'] = (ravish_report_final['lydeliveredviews'] / ravish_report_final['lydeliveredimpressions'])
+ravish_report_final['deliveredvtrpercent'] = (ravish_report_final['deliveredvtr'] / ravish_report_final['lydeliveredvtr'])
+ravish_report_final['lydeliveredvtrpercent'] = (ravish_report_final['lydeliveredvtr'] / ravish_report_final['lydeliveredvtr'])
+ravish_report_final['deliveredvtrvsly'] = (ravish_report_final['deliveredvtrpercent'] / ravish_report_final['lydeliveredvtrpercent'])
+ravish_report_final['deliveredclickspercent'] = (ravish_report_final['cydeliveredclicks24'] / ravish_report_final['cyplannedclicks24'])
+ravish_report_final['lydeliveredclickspercent'] = (ravish_report_final['lydeliveredclicks'] / ravish_report_final['lyplannedclicks'])
+ravish_report_final['deliveredclicksvsly'] = (ravish_report_final['deliveredclickspercent'] / ravish_report_final['lydeliveredclickspercent'])
+ravish_report_final['deliveredspendspercent'] = (ravish_report_final['cydeliveredspends24'] / ravish_report_final['cyplannedspends24'])
+ravish_report_final['lydeliveredspendspercent'] = (ravish_report_final['lydeliveredspends'] / ravish_report_final['lyplannedspends'])
+ravish_report_final['deliveredspendsvsly'] = (ravish_report_final['deliveredspendspercent'] / ravish_report_final['lydeliveredspendspercent'])
 
 # Reorder columns
 ravish_report_final = ravish_report_final.loc[:,["Date", "day", "geocity", "cyplannedimpressions24", "lyplannedimpressions", "cydeliveredimpressions24", "lydeliveredimpressions", "deliveredimpressionpercent", "lydeliveredimpressionpercent", "deliveredimpressionsvsly", "cyplannedviews24", "lyplannedviews", "cydeliveredviews24", "lydeliveredviews", "deliveredviewspercent", "lydeliveredviewspercent", "deliveredviewsvsly", "plannedctr", "lyplannedctr", "deliveredctr", "lydeliveredctr", "deliveredctrpercent", "lydeliveredctrpercent", "deliveredctrvsly", "plannedvtr", "lyplannedvtr", "deliveredvtr", "lydeliveredvtr", "deliveredvtrpercent", "lydeliveredvtrpercent", "deliveredvtrvsly", "cyplannedclicks24", "lyplannedclicks", "cydeliveredclicks24", "lydeliveredclicks", "deliveredclickspercent", "lydeliveredclickspercent", "deliveredclicksvsly", "cyplannedspends24", "lyplannedspends", "cydeliveredspends24", "lydeliveredspends", "deliveredspendspercent", "lydeliveredspendspercent", "deliveredspendsvsly"]]
