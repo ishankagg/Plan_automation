@@ -117,3 +117,4 @@ df_merged_concept = df_merged_concept.groupby(['Campaign Name','Line_Item','Date
 }).reset_index()
 
 df_merged_concept.loc[:,['Campaign Name','Line_Item','Date','Phase/inputs','Genre', 'Demo', 'Geo', 'Medium', 'Publisher', 'Platform', 'Section','Ad Unit', 'Deal Type', 'Targeting', 'Concept Name' ,'Delivered Impressions','Delivered Clicks','Delivered Video Views (True Views)','25% Views', '50% Views', '75% Views', '100% Views','Delievered Spends']].to_csv('merged_plan_concept_report.csv', index=False)
+print('Merged_Plan_Concept created successfully!')
