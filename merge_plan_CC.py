@@ -37,7 +37,9 @@ aggregated_df_line_item = df_report.groupby(['Date', 'Publisher', 'Line Item Nam
     'Spends': 'sum'
 }).reset_index()
 
-df_plan.columns
+# aggregated_df_line_item.to_csv('aggregated_df_line_item.csv', index=False)
+
+# df_plan.columns
 
 #Merging the plan and report
 df_merged = pd.merge(df_plan, aggregated_df_line_item, left_on=['Date', 'Line_Item'], right_on=['Date', 'Line Item Name'], how='left')

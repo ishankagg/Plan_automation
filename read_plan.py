@@ -40,7 +40,7 @@ df_plan = df_plan.dropna(axis=1, how='all')
 
 columns_to_rename = {
     'Est Imp': ['Est-Imp', 'Est. Imp'],
-    'Est Clicks': ['Est-Clicks', 'Est. Clicks', 'Est Clicks'],
+    'Est Clicks': ['Est-Clicks', 'Est. Clicks', 'Est Clicks','Clicks'],
     'Est Video Views': ['Est Video Views', 'Views', 'Est Views / Engag'],
     'Total Net Cost': ['Total Net Cost', 'Net Cost','Total Cost'],
     'Start Date': ['Start Date', 'Start','Star Date'],
