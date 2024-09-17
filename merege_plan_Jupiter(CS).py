@@ -63,7 +63,7 @@ df_merged = df_merged.rename(
 
 df_merged.columns
 
-df_merged.loc[:,['Campaign Name','Line_Item','Date','Phase/inputs','Genre', 'Demo', 'Geo', 'Medium', 'Publisher', 'Platform', 'Section','Ad Unit', 'Deal Type', 'Targeting', 'Planned Impressions','Delivered Impressions','Planned Clicks','Delivered Clicks','Planned Video Views','Delivered Video Views (True Views)','25% Views', '50% Views', '75% Views', '100% Views','Planned Spends','Delievered Spends']].to_csv('merged_plan_report.csv', index=False) 
+df_merged.loc[:,['Campaign Name','Line_Item','Date','Phase/inputs',"Geo Cut", "Cohort", "Genre", "Publisher", "Devices", "Section", "Ad Unit", "Ad Size", "Creatives", "Language", "Targeting", "Deal Type",'Planned Impressions','Delivered Impressions','Planned Clicks','Delivered Clicks','Planned Video Views','Delivered Video Views (True Views)','25% Views', '50% Views', '75% Views', '100% Views','Planned Spends','Delievered Spends']].to_csv('merged_plan_report.csv', index=False) 
 
 
 print('Merged_Plan created successfully!')
@@ -81,10 +81,12 @@ aggregated_df_concept_name = df_report.groupby(['Date', 'Publisher', 'Line Item 
     'Spends': 'sum'
 }).reset_index()
 
-aggregated_df_concept_name.columns
+# aggregated_df_concept_name.to_csv('aggregated_df_concept_name.csv', index=False)
 
 #Merging the plan and report
 df_merged_concept = pd.merge(df_plan, aggregated_df_concept_name, left_on=['Date', 'Line_Item'], right_on=['Date', 'Line Item Name'], how='left')
+
+# df_merged_concept.to_csv('df_merged_concept.csv', index=False)
 
 df_merged_concept = df_merged_concept.rename(
     columns={
@@ -105,7 +107,10 @@ df_merged_concept = df_merged_concept.rename(
         'Spends':'Delievered Spends'}
         )
 
-df_merged_concept = df_merged_concept.groupby(['Campaign Name','Line_Item','Date','Phase/inputs','Genre', 'Demo', 'Geo', 'Medium', 'Publisher', 'Platform', 'Section','Ad Unit', 'Deal Type', 'Targeting','Concept Name']).agg({
+# df_merged_concept.to_csv('df_merged_concept_2.csv', index=False)
+df_merged_concept = df_merged_concept.fillna(0)
+
+df_merged_concept = df_merged_concept.groupby(['Campaign Name','Line_Item','Date','Phase/inputs','Geo Cut', 'Genre', 'Publisher', 'Devices', 'Section', 'Ad Unit', 'Ad Size', 'Creatives', 'Language', 'Targeting', 'Deal Type','Concept Name', 'Cohort']).agg({
     'Delivered Impressions': 'sum',
     'Delivered Clicks': 'sum',
     'Delivered Video Views (True Views)': 'sum',
@@ -116,5 +121,7 @@ df_merged_concept = df_merged_concept.groupby(['Campaign Name','Line_Item','Date
     'Delievered Spends': 'sum'
 }).reset_index()
 
-df_merged_concept.loc[:,['Campaign Name','Line_Item','Date','Phase/inputs','Genre', 'Demo', 'Geo', 'Medium', 'Publisher', 'Platform', 'Section','Ad Unit', 'Deal Type', 'Targeting', 'Concept Name' ,'Delivered Impressions','Delivered Clicks','Delivered Video Views (True Views)','25% Views', '50% Views', '75% Views', '100% Views','Delievered Spends']].to_csv('merged_plan_concept_report.csv', index=False)
+# df_merged_concept.to_csv('df_merged_concept_3.csv', index=False)
+
+df_merged_concept.loc[:,['Campaign Name','Line_Item','Date','Phase/inputs',"Geo Cut", "Cohort", "Genre", "Publisher", "Devices", "Section", "Ad Unit", "Ad Size", "Creatives", "Language", "Targeting", "Deal Type",'Concept Name' ,'Delivered Impressions','Delivered Clicks','Delivered Video Views (True Views)','25% Views', '50% Views', '75% Views', '100% Views','Delievered Spends']].to_csv('merged_plan_concept_report.csv', index=False)
 print('Merged_Plan_Concept created successfully!')

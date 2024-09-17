@@ -5,7 +5,7 @@ import datetime
 
 
 plans_path = 'raw_plans/'
-sheet_name = 'Media Plan'
+sheet_name_all = ['Media Plan','CS Plan']
 overall_plans_path = 'cleaned_plans/'
 daywise_plans_path = 'cleaned_daywise_plans/'
 
@@ -30,8 +30,13 @@ for file in list_of_files:
 #Plan excel to df
 df_plan_excel = pd.ExcelFile(plan_file_path)
 
+#Reading the sheet names
+sheet_names_excel = df_plan_excel.sheet_names
+sheet_name = [sheet for sheet in sheet_names_excel if sheet in sheet_name_all][0]
+
 #Reading the plan sheet
 df_plan = pd.read_excel(df_plan_excel, sheet_name)
+
 
 #Cleaning the plan
 #Dropping rows with no Deal Type
