@@ -5,7 +5,7 @@ import datetime
 
 
 plans_path = 'raw_plans/'
-sheet_name_all = ['Media Plan','CS Plan']
+sheet_name_all = ['Media Plan','CS Plan','Media plan', 'DADR Plan']
 overall_plans_path = 'cleaned_plans/'
 daywise_plans_path = 'cleaned_daywise_plans/'
 
